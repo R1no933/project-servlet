@@ -5,6 +5,7 @@
 <html>
 <head>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <script src="<c:url value="static/jquery-3.6.0.min.js"/>"></script>
     <link href="static/main.css" rel="stylesheet">
     <title>Tic-Tac-Toe</title>
 </head>
@@ -51,15 +52,32 @@
     <c:set var="NOUGHTS" value="<%=Sign.NOUGHT%>"/>
 
     <c:if test="${winner == CROSSES}">
-        <h1>CROSSES WINS!!!</h1>
+        <h1 class="winner">CROSSES WINS!!!</h1>
+        <button onclick="restart()" class="restart-btn">RESTART GAME</button>
     </c:if>
 
     <c:if test="${winner == NOUGHTS}">
-        <h1>NOUGHTS WINS!!</h1>
+        <h1 class="winner">NOUGHTS WINS!!</h1>
+        <button onclick="restart()" class="restart-btn">RESTART GAME</button>
+    </c:if>
+
+    <c:if test="${draw}">
+        <h1 class="draw">OHH! DRAW!</h1>
+        <button onclick="restart()" class="restart-btn">RESTART GAME</button>
     </c:if>
 
     <script>
-
+        function restart() {
+            $.ajax({
+                url: '/restart',
+                type: 'POST',
+                contentType: 'application/json;charset=UTF-8',
+                async: false,
+                success: function () {
+                    location.reload();
+                }
+            })
+        }
     </script>
 
 </body>
